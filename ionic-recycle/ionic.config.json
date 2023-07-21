@@ -1,0 +1,7 @@
+{
+  "name": "ionic-recycle",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
