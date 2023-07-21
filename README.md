@@ -1,2 +1,2 @@
 # ionic-recycle
-testing ionic app
+testing ionic app to have an example 
