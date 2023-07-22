@@ -1,0 +1,26 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="success">
+    <ion-title>Register</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title size="large">What do you want to do with the recyclable waste?</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-radio-group [allowEmptySelection]="true" value="turtles">
+        <ion-item>
+          <ion-label>I want to BUY it</ion-label>
+          <ion-radio slot="start" value="CLIENT"></ion-radio>
+        </ion-item>
+        <ion-item>
+          <ion-label>I want to SELL it</ion-label>
+          <ion-radio slot="start" value="PARTNER"></ion-radio>
+        </ion-item>
+
+      </ion-radio-group>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
