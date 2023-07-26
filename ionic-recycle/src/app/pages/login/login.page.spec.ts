@@ -31,4 +31,10 @@ describe('LoginPage', () => {
     component.login();
     expect(router.navigate).toHaveBeenCalledWith(['home']);
   });
+
+  it('should go to register page on login register button', () => {
+    spyOn(router, 'navigate');
+    component.register();
+    expect(router.navigate).toHaveBeenCalledWith(['register']);
+  });
 });

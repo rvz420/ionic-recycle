@@ -7,6 +7,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+  register() {
+    this.router.navigate(['register']);
+  }
   login() {
     this.router.navigate(['home']);
   }
