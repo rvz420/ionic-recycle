@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angul
 import { IonicModule } from '@ionic/angular';
 
 import { LoadingComponent } from './loading.component';
-import { AppStoreModule } from 'src/store/AppStoreModule';
 import { AppState } from 'src/store/AppState';
 import { StoreModule } from "@ngrx/store";
 import { Store } from '@ngrx/store';
@@ -39,13 +38,11 @@ describe('LoadingComponent', () => {
   });
 
    // TODO fix this test
-  it('should show loading component when it is loading', fakeAsync( () => {
+  it('should show loading component when it is loading', () => {
 
     const compiled = fixture.nativeElement;
     store.dispatch(show());
     fixture.detectChanges();
-    tick(1500);
     expect(compiled.querySelector(".backdrop")).not.toBeNull();
-  })
-  );
+  });
 });
