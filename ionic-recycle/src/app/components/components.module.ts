@@ -5,6 +5,7 @@ import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { IonicModule } from "@ionic/angular";
 import { HomePageRoutingModule } from "../pages/home/home-routing.module";
+import { LoadingComponent } from "./loading/loading.component";
 
 @NgModule({
   imports: [
@@ -13,7 +14,7 @@ import { HomePageRoutingModule } from "../pages/home/home-routing.module";
     IonicModule,
     HomePageRoutingModule
   ],
-  declarations: [PickupCallCardComponent,ErrorMessageComponent],
-  exports: [PickupCallCardComponent,ErrorMessageComponent]
+  declarations: [PickupCallCardComponent,ErrorMessageComponent,LoadingComponent],
+  exports: [PickupCallCardComponent,ErrorMessageComponent,LoadingComponent]
 })
 export class ComponentsModule{};

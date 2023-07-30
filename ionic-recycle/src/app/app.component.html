@@ -6,16 +6,17 @@
           <ion-list-header>Reciclar</ion-list-header>
           <ion-note>reciclar@ionicframework.com</ion-note>
 
-          <ion-menu-toggle auto-hide="true" *ngFor="let p of appPages; let i = index">
+          <!-- <ion-menu-toggle auto-hide="true" *ngFor="let p of appPages; let i = index">
             <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
               <ion-icon aria-hidden="true" slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
               <ion-label>{{ p.title }}</ion-label>
             </ion-item>
-          </ion-menu-toggle>
+          </ion-menu-toggle> -->
         </ion-list>
 
       </ion-content>
     </ion-menu>
     <ion-router-outlet id="main-content"></ion-router-outlet>
   </ion-split-pane>
+  <app-loading></app-loading>
 </ion-app>
