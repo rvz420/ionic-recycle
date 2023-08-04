@@ -37,9 +37,7 @@ describe('LoadingComponent', () => {
     expect(compiled.querySelector(".backdrop")).toBeNull();
   });
 
-   // TODO fix this test
   it('should show loading component when it is loading', () => {
-
     const compiled = fixture.nativeElement;
     store.dispatch(show());
     fixture.detectChanges();
