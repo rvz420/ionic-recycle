@@ -5,6 +5,7 @@ import { LoginPageForm } from './login.page.form';
 import { AppState } from '@capacitor/app';
 import {Store} from '@ngrx/store';
 import { hide, show } from 'src/store/loading/loading.actions';
+import { recoveredPassword } from 'src/store/login/login.actions';
 
 @Component({
   selector: 'app-login',
@@ -20,13 +21,16 @@ export class LoginPage implements OnInit {
   login() {
     this.router.navigate(['home']);
   }
-  forgotEmailPassword() {
+  /*forgotEmailPassword() {
     this.store.dispatch(show());
 
     setTimeout(() =>{
       this.store.dispatch(hide());
 
-    }, 1500);
+    }, 1500);*/
+
+    forgotEmailPassword() {
+      this.store.dispatch(recoveredPassword());
   }
 
 
@@ -35,6 +39,7 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit() {
+    this.form = new LoginPageForm(this.formBuilder).createForm();
   }
 
 }
