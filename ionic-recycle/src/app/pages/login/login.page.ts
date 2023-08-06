@@ -5,7 +5,7 @@ import { LoginPageForm } from './login.page.form';
 import { AppState } from 'src/store/AppState';
 import { Store } from '@ngrx/store';
 import { hide, show } from 'src/store/loading/loading.actions';
-import { login, recoveredPassword, recoveredPasswordFail, recoveredPasswordSuccess } from 'src/store/login/login.actions';
+import { login, loginFail, loginSuccess, recoveredPassword, recoveredPasswordFail, recoveredPasswordSuccess } from 'src/store/login/login.actions';
 import { ToastController } from '@ionic/angular';
 import { LoginState } from 'src/store/login/LoginState';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -30,15 +30,14 @@ export class LoginPage implements OnInit {
       this.onIsRecoveringPassword(loginState);
       this.onIsRecoverPasswordFail(loginState);
 
-      if (loginState.isLoggingIn) {
-        this.store.dispatch(show());
-      }
+      this.onIsLoggingIn(loginState);
+      this.onIsLoggedIn(loginState);
+
+      this.toogleLoading(loginState);
     });
   }
   private async onIsRecoveringPassword(loginState: LoginState) {
     if (loginState.isRecoveringPassword) {
-      this.store.dispatch(show());
-
       this.auth.recoverEmailPassword(this.form.get("email")?.value).subscribe(() => {
         this.store.dispatch(recoveredPasswordSuccess());
       }, error => {
@@ -46,10 +45,20 @@ export class LoginPage implements OnInit {
       });
     }
   }
+
+
+  private toogleLoading(loginState: LoginState) {
+    if (loginState.isRecoveringPassword || loginState.isLoggingIn) {
+      this.store.dispatch(show());
+    } else {
+      this.store.dispatch(hide());
+    }
+
+  }
+
   private async onIsRecoveredPassword(loginState: LoginState) {
 
     if (loginState.isRecoveredPassword) {
-      this.store.dispatch(hide());
       const toater = await this.toastController.create({
         position: "bottom",
         message: "Recovery email sent",
@@ -63,7 +72,6 @@ export class LoginPage implements OnInit {
   private async onIsRecoverPasswordFail(loginState: LoginState) {
 
     if (loginState.error) {
-      this.store.dispatch(hide());
       const toater = await this.toastController.create({
         position: "bottom",
         message: loginState.error.message,
@@ -77,14 +85,29 @@ export class LoginPage implements OnInit {
     this.router.navigate(['register']);
   }
   login() {
-    this.store.dispatch(login())
+    this.store.dispatch(login());
   }
 
   forgotEmailPassword() {
     this.store.dispatch(recoveredPassword());
   }
 
+  private onIsLoggingIn(loginState: LoginState) {
+    if (loginState.isLoggingIn) {
+      this.auth.login(this.form.get('email')?.value, this.form.get('password')?.value).subscribe(user => {
+        this.store.dispatch(loginSuccess({ user }));
+      }, error => {
+        this.store.dispatch(loginFail({error}));
+      }
+      );
+    }
+  }
 
+  private onIsLoggedIn(loginState: LoginState) {
+    if (loginState.isLoggedIn) {
+      this.router.navigate(['home']);
+    }
+  }
 
 
 }
