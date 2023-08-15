@@ -73,11 +73,11 @@ export class LoginPage implements OnInit {
     this.router.navigate(['register']);
   }
   login() {
-    this.store.dispatch(login());
+    this.store.dispatch(login({email: this.form.get("email")?.value, password: this.form.get("password")?.value}));
   }
 
   forgotEmailPassword() {
-    this.store.dispatch(recoveredPassword());
+    this.store.dispatch(recoveredPassword({email: this.form.get("email")?.value}));
   }
 
 

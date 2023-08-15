@@ -71,7 +71,7 @@ describe('LoginPage', () => {
   it('should show loading when recovering password', () => {
 
     fixture.detectChanges();
-    store.dispatch(recoveredPassword());
+    store.dispatch(recoveredPassword({email: "any@mail.com"}));
     store.select('loading').subscribe(loginState => {
       expect(loginState.show).toBeTrue();
     })
@@ -80,7 +80,7 @@ describe('LoginPage', () => {
   it('should hide loading and show message when has recovered password', () => {
 
     fixture.detectChanges();
-    store.dispatch(recoveredPassword());
+    store.dispatch(recoveredPassword({email: "any@mail.com"}));
     store.dispatch(recoveredPasswordSuccess());
     store.select('loading').subscribe(loginState => {
       expect(loginState.show).toBeFalse();
@@ -91,7 +91,7 @@ describe('LoginPage', () => {
   it('should hide loading and show error message when error on recover password', () => {
 
     fixture.detectChanges();
-    store.dispatch(recoveredPassword());
+    store.dispatch(recoveredPassword({email: "any@mail.com"}));
     store.dispatch(recoveredPasswordFail({error: "error"}));
     store.select('loading').subscribe(loginState => {
       expect(loginState.show).toBeFalse();
@@ -119,7 +119,7 @@ describe('LoginPage', () => {
     spyOn(router, 'navigate');
     fixture.detectChanges();
 
-    store.dispatch(login());
+    store.dispatch(login({email: "any@mail.com", password: "1234"}));
 
     store.dispatch(loginSuccess({user: new User()}));
     store.select('loading').subscribe(loadingState => {
@@ -136,7 +136,7 @@ describe('LoginPage', () => {
 
 
     fixture.detectChanges();
-    store.dispatch(login());
+    store.dispatch(login({email: "any@email.com", password: "1234"}));
     store.dispatch(loginFail({error: {message: "error message"}}));
 
     store.select('loading').subscribe(loginloading => {
