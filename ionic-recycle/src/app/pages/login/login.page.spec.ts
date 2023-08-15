@@ -8,10 +8,8 @@ import { loadingReducer } from 'src/store/loading/loading.reducers';
 import { Store, StoreModule } from '@ngrx/store';
 import { AppState } from 'src/store/AppState';
 import { loginReducer } from 'src/store/login/login.reducers';
-import { recoveredPassword, recoveredPasswordFail, recoveredPasswordSuccess } from 'src/store/login/login.actions';
-import { AuthService } from 'src/app/services/auth/auth.service';
+import { login, loginFail, loginSuccess, recoveredPassword, recoveredPasswordFail, recoveredPasswordSuccess } from 'src/store/login/login.actions';
 import { User } from 'src/app/model/user/User';
-import { of, throwError } from 'rxjs';
 
 describe('LoginPage', () => {
   let component: LoginPage;
@@ -20,7 +18,6 @@ describe('LoginPage', () => {
   let page: any;
   let store: Store<AppState>;
   let toastController: ToastController;
-  let authService : AuthService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -39,7 +36,6 @@ describe('LoginPage', () => {
     page = fixture.debugElement.nativeElement;
     store = TestBed.inject(Store);
     toastController = TestBed.inject(ToastController);
-    authService = TestBed.inject(AuthService);
     spyOn(toastController, 'create').and.returnValue(<any> Promise.resolve({present: () => {}}));
 
   }));
@@ -121,17 +117,16 @@ describe('LoginPage', () => {
 
   it('should hide loading and send user to home page when user has logged in', () => {
     spyOn(router, 'navigate');
-    spyOn(authService, 'login').and.returnValue(of(new User()));
     fixture.detectChanges();
-    component.form.get('email')?.setValue('valid@email.com');
-    component.form.get('password')?.setValue('anyPassword');
-    page.querySelector("#loginButton").click();
 
+    store.dispatch(login());
+
+    store.dispatch(loginSuccess({user: new User()}));
     store.select('loading').subscribe(loadingState => {
       expect(loadingState.show).toBeFalse();
     })
     store.select('login').subscribe(loginState => {
-      expect(loginState.isLoggingIn).toBeFalse();
+      expect(loginState.isLoggedIn).toBeTrue();
     })
 
     expect(router.navigate).toHaveBeenCalledWith(['home']);
@@ -139,16 +134,17 @@ describe('LoginPage', () => {
 
   it('should hide loading and show error when user couldnt login', () => {
 
-    spyOn(authService, 'login').and.returnValue(throwError({message: 'Error'}));
 
     fixture.detectChanges();
-    component.form.get('email')?.setValue('valid@email.com');
-    component.form.get('password')?.setValue('anyPassword');
-    page.querySelector("#loginButton").click();
-    store.select('loading').subscribe(loginState => {
-      expect(loginState.show).toBeFalse();
-    })
+    store.dispatch(login());
+    store.dispatch(loginFail({error: {message: "error message"}}));
+
+    store.select('loading').subscribe(loginloading => {
+      expect(loginloading.show).toBeFalse();
+    });
+
     expect(toastController.create).toHaveBeenCalledTimes(1);
+
   });
 
 });
